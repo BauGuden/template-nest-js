@@ -10,11 +10,6 @@ services:
     environment:
       NODE_ENV: production
       APP_NAME: ${APP_NAME:-template-service}
-      APP_MODE: ${APP_MODE:-hybrid}
-      PORT: 3000
-      API_PREFIX: ${API_PREFIX:-api/v1}
-      CORS_ORIGINS: ${CORS_ORIGINS:-*}
-      SWAGGER_ENABLED: ${SWAGGER_ENABLED:-false}
       NATS_SERVERS: nats://nats:4222
       NATS_QUEUE: ${NATS_QUEUE:-template-service}
       DATABASE_ENABLED: "true"
@@ -26,8 +21,6 @@ services:
       DB_SCHEMA: ${DB_SCHEMA:-public}
       DB_SYNCHRONIZE: ${DB_SYNCHRONIZE:-false}
       DB_LOGGING: ${DB_LOGGING:-false}
-    ports:
-      - "${APP_PORT:-3000}:3000"
     depends_on:
       nats:
         condition: service_started

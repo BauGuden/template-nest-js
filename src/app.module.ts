@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { env } from './config';
 import { DatabaseModule } from './database/database.module';
-import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -13,7 +12,6 @@ import { HealthModule } from './health/health.module';
       expandVariables: true,
     }),
     CommonModule,
-    HealthModule,
     ...(env.database.enabled ? [DatabaseModule] : []),
   ],
 })
