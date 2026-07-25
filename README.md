@@ -3,6 +3,19 @@
 Base reutilizable para construir APIs HTTP con NestJS. Incluye configuración
 validada, Swagger, validación de DTOs, TypeORM/PostgreSQL opcional y Docker.
 
+## Crear un nuevo proyecto
+
+Clona la rama HTTP `templatehttp` y usa el último argumento como nombre de tu
+proyecto:
+
+```powershell
+git clone --branch templatehttp --single-branch https://github.com/BauGuden/template-nest-js.git mi-api
+cd mi-api
+```
+
+Reemplaza `mi-api` por el nombre que quieras, por ejemplo `orders-api` o
+`users-api`.
+
 ## Requisitos
 
 - Node.js 20.11 o superior.
@@ -16,11 +29,28 @@ corepack enable
 corepack prepare yarn@1.22.22 --activate
 ```
 
-## Primera ejecución
+## Configuración y primera ejecución
 
-```bash
+Instala las dependencias y crea el archivo local de variables:
+
+```powershell
 yarn install --frozen-lockfile
-cp .env.template .env
+Copy-Item .env.template .env
+```
+
+Edita `.env` con los valores de tu API:
+
+```dotenv
+APP_NAME=orders-api
+PORT=3000
+API_PREFIX=api/v1
+CORS_ORIGINS=http://localhost:5173
+DATABASE_ENABLED=false
+```
+
+Inicia el servidor:
+
+```powershell
 yarn start:dev
 ```
 
@@ -73,11 +103,11 @@ yarn seed
 
 `DB_SYNCHRONIZE` debe permanecer en `false` en producción.
 
-## Usar como template
+## Personalizar la API
 
 1. Cambia `name`, `description` y `version` en `package.json`.
-2. Copia `.env.template` a `.env` y asigna un `APP_NAME` descriptivo.
-3. Crea módulos por dominio con `yarn nest generate module modules/users`.
+2. Crea módulos por dominio con `yarn nest generate module modules/users`.
+3. Agrega controllers, services, DTOs y entidades a cada módulo.
 4. Ejecuta las validaciones antes de publicar:
 
    ```bash
