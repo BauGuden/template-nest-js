@@ -6,6 +6,19 @@ eventos, TypeORM/PostgreSQL opcional y Docker Compose.
 
 No expone un servidor HTTP, rutas REST ni documentación Swagger.
 
+## Crear un nuevo proyecto
+
+Clona únicamente la rama `templatenonhttp` y usa el último argumento como el
+nombre de tu proyecto:
+
+```powershell
+git clone --branch templatenonhttp --single-branch https://github.com/BauGuden/template-nest-js.git name-service
+cd name-service
+```
+
+Puedes reemplazar `name-service` por el nombre que quieras, por ejemplo
+`orders-service` o `payments-service`.
+
 ## Requisitos
 
 - Node.js 20.11 o superior.
@@ -13,11 +26,31 @@ No expone un servidor HTTP, rutas REST ni documentación Swagger.
 - NATS para ejecutar el microservicio.
 - PostgreSQL solo si `DATABASE_ENABLED=true`.
 
-## Primera ejecución
+## Configuración y primera ejecución
 
-```bash
+Instala las dependencias y crea tu archivo local de variables:
+
+```powershell
 yarn install --frozen-lockfile
 Copy-Item .env.template .env
+```
+
+Edita `.env` para asignar al menos un nombre y una cola propios:
+
+```dotenv
+APP_NAME=orders-service
+NATS_SERVERS=nats://localhost:4222
+NATS_QUEUE=orders-service
+DATABASE_ENABLED=false
+```
+
+`NATS_QUEUE` debe ser único por microservicio cuando cada servicio necesite
+recibir todos los mensajes publicados. Activa `DATABASE_ENABLED=true` solo si
+el microservicio necesita PostgreSQL.
+
+Inicia NATS y luego el microservicio:
+
+```powershell
 docker compose up -d nats
 yarn start:dev
 ```
@@ -48,6 +81,12 @@ docker compose --env-file .env.compose up --build
 
 El puerto `4222` publica NATS y `8222` expone su monitor local. La aplicación
 no publica puertos HTTP.
+
+Para detener la infraestructura:
+
+```powershell
+docker compose --env-file .env.compose down
+```
 
 ## Base de datos y migraciones
 
